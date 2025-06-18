@@ -1,5 +1,6 @@
-import React, { useEffect, useState, Suspense } from "react";
+import React, { Suspense } from "react";
 import { useParams } from "react-router-dom";
+import LiveKitSkeleton from "../component/skeleton";
 
 const LiveKitRoom = React.lazy(() =>
   import("@livekit/components-react").then((mod) => ({
@@ -11,14 +12,14 @@ export default function LiveKitWebView() {
   const { id } = useParams();
 
   return (
-    <Suspense fallback={<div>Loading LiveKit...</div>}>
-      <div style={{ height: "100%", width: "100%" }}>
+    <div style={{ height: "100%", width: "100%" }}>
+      <Suspense fallback={<LiveKitSkeleton />}>
         <LiveKitRoom
           token={id}
           serverUrl={import.meta.env.VITE_LIVEKIT_WS_URL}
           connect={true}
         />
-      </div>
-    </Suspense>
+      </Suspense>
+    </div>
   );
 }
